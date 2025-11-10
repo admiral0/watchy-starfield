@@ -8,11 +8,7 @@
 
 // change it to your location 
 //          latitude, longitude, timezone
-#define LOC 31.00, 121.00, 8
-
-RTC_DATA_ATTR bool DARKMODE = false;
-// RTC_DATA_ATTR int showState = 0;
-RTC_DATA_ATTR bool HOUR_SET = true;
+//#define LOC 31.00, 121.00, 8
 
 moonPhaser moonP;
 
@@ -21,11 +17,12 @@ void Watchy7SEG::handleButtonPress()
     if (guiState == WATCHFACE_STATE)
     {
         uint64_t wakeupBit = esp_sleep_get_ext1_wakeup_status();
+        // I'll fix that later - don't like default setup - only menu
         if (wakeupBit & UP_BTN_MASK) 
         {
             // showState++;
             // if (showState > 2) { showState = 0; }
-            HOUR_SET = !HOUR_SET;
+            //HOUR_SET = !HOUR_SET;
             RTC.read(currentTime);
             showWatchFace(true);
             return;
@@ -34,14 +31,14 @@ void Watchy7SEG::handleButtonPress()
         {
             // showState--;
             // if (showState < 0) { showState = 2; }
-            HOUR_SET = !HOUR_SET;
+            //HOUR_SET = !HOUR_SET;
             RTC.read(currentTime);
             showWatchFace(true);
             return;
         }
         if (wakeupBit & BACK_BTN_MASK) 
         {
-            DARKMODE = !DARKMODE;
+            //DARKMODE = !DARKMODE;
             RTC.read(currentTime);
             showWatchFace(true);
             return;
@@ -676,7 +673,7 @@ void Watchy7SEG::drawMoon() {
 }
 
 void Watchy7SEG::drawSun() {
-    Dusk2Dawn location(LOC);
+    Dusk2Dawn location(CITY_LATITUDE, CITY_LONGITUDE, GMT_OFFSET_HOURS);
     int year = currentTime.Year + 1970;
     int32_t month = currentTime.Month;
     int32_t day = currentTime.Day;

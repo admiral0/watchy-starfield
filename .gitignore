@@ -1,2 +1,4 @@
 .pio
 .idea
+# Any further changes to secrets you should not see
+src/secrets.h
